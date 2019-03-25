@@ -4,7 +4,7 @@ namespace LoggerExam.Loggers
 {
     public class LogFile : ILogFile
     {
-        public int Size { get; private set; }
+        public int Size { get;  set; }
 
         public void Write(string message)
         {

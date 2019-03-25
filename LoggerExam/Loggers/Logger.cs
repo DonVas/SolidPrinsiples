@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LoggerExam.Appenders;
+﻿using LoggerExam.Appenders;
+using LoggerExam.Loggers.Enums;
 
 namespace LoggerExam.Loggers
 {
@@ -10,21 +8,46 @@ namespace LoggerExam.Loggers
         private IAppender appender;
         private IAppender fileAppender;
 
-        public Logger(IAppender appender, IAppender fileAppender)
+        public Logger(IAppender appender)
         {
             this.appender = appender;
-            this.fileAppender = fileAppender;
         }
-        public void Error(string dateTime, string errorMessage)
+        public Logger(IAppender appender, IAppender fileAppender)
+        :this(appender)
         {
-            appender.Append(dateTime,"Error",errorMessage);
-            fileAppender.Append(dateTime, "Error", errorMessage);
+            this.fileAppender = fileAppender;
         }
 
         public void Info(string dateTime, string infoMessage)
         {
-           appender.Append(dateTime,"Info",infoMessage);
-           fileAppender.Append(dateTime, "Info", infoMessage);
+            this.Append(dateTime, (ReportLevel)1, infoMessage);
+        }
+
+        public void Warning(string dateTime, string warningMessage)
+        {
+            this.Append(dateTime, (ReportLevel)2, warningMessage);
+        }
+
+        public void Error(string dateTime, string errorMessage)
+        {
+            this.Append(dateTime, (ReportLevel)3, errorMessage);
+        }
+
+        public void Critical(string dateTime, string criticalMessage)
+        {
+            this.Append(dateTime, (ReportLevel)4, criticalMessage);
+        }
+
+       public  void Fatal(string dateTime, string fatalMessage)
+        {
+            this.Append(dateTime, (ReportLevel)5, fatalMessage);
+        }
+            
+
+        private void Append(string dateTime, ReportLevel type, string message)
+        {
+            appender?.Append(dateTime, type, message);
+            fileAppender?.Append(dateTime, type, message);
         }
     }
 }

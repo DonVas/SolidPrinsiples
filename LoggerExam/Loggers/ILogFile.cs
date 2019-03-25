@@ -3,6 +3,6 @@
     public interface ILogFile
     {
         void Write(string message);
-        int Size { get; }
+        int Size { get; set; }
     }
 }
